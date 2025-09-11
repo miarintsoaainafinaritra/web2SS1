@@ -1,16 +1,11 @@
 /* eslint-disable no-undef */
 const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',     
-  database: 'ExpenseTracker', 
-  password: 'meilleur',    
-  port: 5432,       
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
-
-module.exports = pool;
-
 
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
